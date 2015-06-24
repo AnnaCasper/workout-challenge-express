@@ -1,0 +1,60 @@
+extends ../layout
+
+block content
+  h1 Showing All Scores for #{thisPlayer.name}
+  table 
+    thead
+     tr
+      th Day 1
+      th Day 2
+      th Day 3
+      th Day 4
+      th Day 5
+      th Day 6
+      th Day 7
+      th Day 8
+      th Day 9
+      th Day 10
+      th Day 11
+      th Day 12
+      th Day 13
+      th Day 14
+      th Day 15
+      th Day 16
+      th Day 17
+      th Day 18
+      th Day 19
+      th Day 20
+      th Day 21
+      th Total Score 
+    tbody
+      tr
+        td= thisPlayer.day1
+        td= thisPlayer.day2
+        td= thisPlayer.day3
+        td= thisPlayer.day4
+        td= thisPlayer.day5
+        td= thisPlayer.day6
+        td= thisPlayer.day7
+        td= thisPlayer.day8
+        td= thisPlayer.day9
+        td= thisPlayer.day10
+        td= thisPlayer.day11
+        td= thisPlayer.day12
+        td= thisPlayer.day13
+        td= thisPlayer.day14
+        td= thisPlayer.day15
+        td= thisPlayer.day16
+        td= thisPlayer.day17
+        td= thisPlayer.day18
+        td= thisPlayer.day19
+        td= thisPlayer.day20
+        td= thisPlayer.day21
+        td= thisPlayer.totalScore
+  p
+  a(href="/challenges/" + thisPlayer._id + "/edit") Edit Scores
+  p
+  form(action"/challenges" method="post")
+    input(type="submit" value="Delete Player")
+  
+      
