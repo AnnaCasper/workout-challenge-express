@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-var db = require('monk')('localhost/workout-challenge');
+var db = require('monk')(process.env.MONGO_URI);
 var challenge = db.get('challenge');
 var functions = require('../public/javascripts/logic.js')
 
