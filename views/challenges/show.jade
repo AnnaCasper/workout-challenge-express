@@ -1,7 +1,10 @@
 extends ../layout
 
 block content
-  h1 Showing All Scores for #{thisPlayer.name}
+  h1 Showing All Scores for #{thisChallenge.challenge_name}
+  form(action="/join" method="post")
+    input(type="submit" value="Join this challenge")
+  p
   table 
     thead
      tr
@@ -28,33 +31,11 @@ block content
       th Day 21
       th Total Score 
     tbody
-      tr
-        td= thisPlayer.day1
-        td= thisPlayer.day2
-        td= thisPlayer.day3
-        td= thisPlayer.day4
-        td= thisPlayer.day5
-        td= thisPlayer.day6
-        td= thisPlayer.day7
-        td= thisPlayer.day8
-        td= thisPlayer.day9
-        td= thisPlayer.day10
-        td= thisPlayer.day11
-        td= thisPlayer.day12
-        td= thisPlayer.day13
-        td= thisPlayer.day14
-        td= thisPlayer.day15
-        td= thisPlayer.day16
-        td= thisPlayer.day17
-        td= thisPlayer.day18
-        td= thisPlayer.day19
-        td= thisPlayer.day20
-        td= thisPlayer.day21
-        td= thisPlayer.totalScore
+  
   p
-  a(href="/challenges/" + thisPlayer._id + "/edit") Edit Scores
+  a(href="/challenges/" + thisChallenge._id + '/edit') Edit Challenge
   p
-  form(action"/challenges" method="post")
-    input(type="submit" value="Delete Player")
+  form(action="" method="post")
+    input(type="submit" value="Delete Challenge")
   
       

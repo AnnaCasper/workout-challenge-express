@@ -3,39 +3,43 @@ extends ../layout
 block content
   fieldset
     legend
-      name Create New Challenge
+      name Create A New Challenge
     form(method="post" action="/challenges")
-      label(for="names") Your name:
+      label(for="challenge_name") Name Your Challenge:
       p
-      input(type="text" id="names" name="names")
+      input(type="text" id="challenge_name" name="challenge_name")
       p
       p
-      label(for="day") Day
+      label(for="challenge_length") How many days will your challenge be active?
       p
-      select(id="day" name="day" required)
-        option 1
+      select(id="challenge_length" name="challenge_length")
+        option(selected disabled) Choose one...
+        option 1 
+        option 2 
+        option 3
+        option 4
+        option 5
+        option 6
+        option 7
+        option 8
+        option 9
+        option 10
+        option 11
+        option 12
+        option 13
+        option 14
+        option 15
+        option 16
+        option 17
+        option 18
+        option 19 
+        option 20
+        option 21
       p
-      label(for="healthy_meals") How many healthy meals today? (+2 points/each)
+      label(for="start_date") Choose a start date for your challenge:
       p
-      input(type="text" id="healthy_meals" name="healthy_meals" required)
+      input(type="date" id="start_date" name="start_date")
       p
-      label(for="workouts") How many workouts today? (+3 points/each)
-      p
-      input(type="text" id="workouts" name="workouts" required)
-      p
-      label(for="unhealthy_meals") How many unhealthy meals today? (-2 points/each)
-      p
-      input(type="text" id="unhealthy_meals" name="unhealthy_meals" required)
-      p
-      input(type="checkbox" id="alcohol" name="alcohol")
-      label(for="alcohol") Drank alcohol (-2 points)
-      p
-      input(type="checkbox" id="water" name="water")
-      label(for="water") Drank 1 gallon of water (+1 point)
-      p
-      input(type="checkbox" id="calorie" name="calorie")
-      label(for="calorie") Under calorie count (+1 point)
-      p
-      input(type="submit" value="Submit")
+      input(type="submit" value="Create Challenge")
       
       

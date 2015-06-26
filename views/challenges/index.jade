@@ -1,63 +1,26 @@
 extends ../layout
 
 block content
-  h1 The 21 Day Workout Challenge 
-  h2 June 10th - June 30th 
-  p 
-  a(href="/players") Add New Player
-  p Current Scores:
-  table
-    thead
-      tr
-        th Name 
-        th Day 1
-        th Day 2
-        th Day 3
-        th Day 4
-        th Day 5
-        th Day 6
-        th Day 7
-        th Day 8
-        th Day 9
-        th Day 10
-        th Day 11
-        th Day 12
-        th Day 13
-        th Day 14
-        th Day 15
-        th Day 16
-        th Day 17
-        th Day 18
-        th Day 19
-        th Day 20
-        th Day 21
-        th Total Score
-    tbody
-      for score in allScores
+    h1 Choose an Active Challenge:
+    table
+      thead
+        th Challenge Name
+        th Challenge Start Date 
+        th Challenge Length
+      tbody
+      for challenge in allChallenges
         tr
-          td 
-            a(href="challenges/" + score._id) #{score.name}
-          td= score.day1
-          td= score.day2
-          td= score.day3
-          td= score.day4
-          td= score.day5
-          td= score.day6
-          td= score.day7
-          td= score.day8
-          td= score.day9
-          td= score.day10
-          td= score.day11
-          td= score.day12
-          td= score.day13
-          td= score.day14
-          td= score.day15
-          td= score.day16
-          td= score.day17
-          td= score.day18
-          td= score.day19
-          td= score.day20
-          td= score.day21
-          td= score.totalScore
+          td
+            a(href='/challenges/' + challenge._id) #{challenge.challenge_name}
+          td= challenge.start_date
+          td #{challenge.challenge_length} Days
+          
+    a(href="/challenges/new") Create a New Challenge
+  //- else 
+  //-   p Sorry! You must be logged in to see this page.
+  //-   a(href="/") Click here to Log In 
+  //-   p
+  //-   p Don't have an account?
+  //-   a(href="/users/new") Click here
 
       

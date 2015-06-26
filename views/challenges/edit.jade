@@ -1,73 +1,21 @@
 extends ../layout
 
 block content
-  h1 Showing All Scores for #{thisPlayer.name}
-  table 
-    thead
-     tr
-      th Day 1
-      th Day 2
-      th Day 3
-      th Day 4
-      th Day 5
-      th Day 6
-      th Day 7
-      th Day 8
-      th Day 9
-      th Day 10
-      th Day 11
-      th Day 12
-      th Day 13
-      th Day 14
-      th Day 15
-      th Day 16
-      th Day 17
-      th Day 18
-      th Day 19
-      th Day 20
-      th Day 21
-      th Total Score 
-    tbody
-      tr
-        td= thisPlayer.day1
-        td= thisPlayer.day2
-        td= thisPlayer.day3
-        td= thisPlayer.day4
-        td= thisPlayer.day5
-        td= thisPlayer.day6
-        td= thisPlayer.day7
-        td= thisPlayer.day8
-        td= thisPlayer.day9
-        td= thisPlayer.day10
-        td= thisPlayer.day11
-        td= thisPlayer.day12
-        td= thisPlayer.day13
-        td= thisPlayer.day14
-        td= thisPlayer.day15
-        td= thisPlayer.day16
-        td= thisPlayer.day17
-        td= thisPlayer.day18
-        td= thisPlayer.day19
-        td= thisPlayer.day20
-        td= thisPlayer.day21
-        td= thisPlayer.totalScore
-  p
-  p
   fieldset
     legend
-      name Edit Daily Scores
-    form(method="post" action="/challenges/:id/edit")
-      label(for="names") Select your name:
+      name Edit #{thisChallenge.challenge_name}
+    form(method="post" action="")
+      label(for="challenge_name") Challenge Name:
       p
-      input(type="text" id="names" name="names" value=thisPlayer.name disabled)
+      input(type="text" id="challenge_name" name="challenge_name" value=thisChallenge.challenge_name)
       p
       p
-      label(for="day") Day
+      label(for="challenge_length") How many days will your challenge be active?
       p
-      select(id="day" name="day" required)
-        option Choose one...
-        option 1
-        option 2
+      select(id="challenge_length" name="challenge_length" value=thisChallenge.challenge_length)
+        option(disabled) Choose one...
+        option 1 
+        option 2 
         option 3
         option 4
         option 5
@@ -84,29 +32,12 @@ block content
         option 16
         option 17
         option 18
-        option 19
+        option 19 
         option 20
         option 21
       p
-      label(for="healthy_meals") How many healthy meals today? (+2 points/each)
+      label(for="start_date") Choose a start date for your challenge:
       p
-      input(type="text" id="healthy_meals" name="healthy_meals" required)
+      input(type="date" id="start_date" name="start_date" value=thisChallenge.start_date)
       p
-      label(for="workouts") How many workouts today? (+3 points/each)
-      p
-      input(type="text" id="workouts" name="workouts" required)
-      p
-      label(for="unhealthy_meals") How many unhealthy meals today? (-2 points/each)
-      p
-      input(type="text" id="unhealthy_meals" name="unhealthy_meals" required)
-      p
-      input(type="checkbox" id="alcohol" name="alcohol")
-      label(for="alcohol") Drank alcohol (-2 points)
-      p
-      input(type="checkbox" id="water" name="water")
-      label(for="water") Drank 1 gallon of water (+1 point)
-      p
-      input(type="checkbox" id="calorie" name="calorie")
-      label(for="calorie") Under calorie count (+1 point)
-      p
-      input(type="submit" value="Submit")
+      input(type="submit" value="Save Updates")

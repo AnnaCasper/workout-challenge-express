@@ -2,7 +2,18 @@ extends layout
 
 block content
   h1 Welcome to the Workout Challenge! 
-  p 
-  a(href="/challenges") Join a Challenge | 
-  a(href="/challenges/new") Create A New Challenge
-  p Join The June 10th - June 30th Challenge
+    h2 Log In
+    form(action="/login" method="post")
+      label(for="login_email") Email:
+      p
+      input(type="text" id="login_email" name="login_email")
+      p
+      label(for="login_password") Password:
+      p
+      input(type="password" id="login_password" name="login_password")
+      p
+      input(type="submit" value="Log In")
+    p
+    p Don't have an account? 
+      a(href="/users/new") Click Here
+  
