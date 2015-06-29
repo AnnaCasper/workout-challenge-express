@@ -2,7 +2,7 @@ extends ../layout
 
 block content
   h2 Edit User Profile
-  form(action="/users/edit" method="post")
+  form(action="/users/" + thisUser._id + "/edit" method="post")
     label(for="user_name") Name:
     p
     input(type="text" id="user_name" name="user_name" value="#{thisUser.user_name}")

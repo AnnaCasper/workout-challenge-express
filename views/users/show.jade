@@ -7,7 +7,7 @@ block content
   p
   a(href="/users/" + thisUser._id + "/edit") Edit Profile
   p
-  form(action="/users/" + thisUser.id + "/delete")
+  form(action="/users/" + thisUser._id + "/delete" method="post")
     input(type="submit" value="Delete Profile")
   p
   a(href="/challenges") Back to Challenges

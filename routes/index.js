@@ -104,14 +104,24 @@ router.get('/challenges', function(req, res, next){
 //GET show challenge page
 router.get('/challenges/:id', function(req, res, next){
   challengeCollection.findOne({_id: req.params.id}, function(err, data){
-    res.render('challenges/show', { thisChallenge: data});
+    res.render('challenges/show', {thisChallenge: data});
   });
 });
 
-//join this challenge
-router.post('/join', function(req, res, next){
-
-})
+//POST join this challenge
+router.post('/challenges/:id/join', function(req, res, next){
+  userCollection.update({_id: req.cookies.currentUser},
+    {$push: {
+      challenge_ids: req.params.id
+      }
+    });
+  challengeCollection.update({_id: req.params.id},
+    {$push: {
+      user_ids: req.cookies.currentUser
+      }
+    });
+  res.redirect('/challenges/' + req.params.id);
+});
 
 //GET edit challenge page
 router.get('/challenges/:id/edit', function(req, res, next){
@@ -127,12 +137,13 @@ router.post('/challenges/:id/edit', function(req, res, next){
       challenge_name: req.body.challenge_name,
       challenge_length: req.body.challenge_length,
       start_date: req.body.start_date,
-      }});
-  res.redirect('/challenges/' + req.params.id)
+      }
+    });
+  res.redirect('/challenges/' + req.params.id);
 });
 
 //POST remove challenge in database
-router.post('/challenges/:id', function(req, res, next){
+router.post('/challenges/:id/delete', function(req, res, next){
   challengeCollection.remove({_id: req.params.id});
   res.redirect('/challenges');
 });
@@ -157,6 +168,53 @@ router.get('/users/:id/edit', function(req, res, next){
   });
 });
 
+//POST edits to user profile
+router.post('/users/:id/edit', function(req, res, next){
+  userCollection.update({_id: req.params.id},
+    { $set: {
+      user_name: req.body.user_name,
+      email: req.body.email
+      }
+    });
+  res.redirect('/users/profile');
+});
 
+//POST remove user in database
+router.post('/users/:id/delete', function(req, res, next){
+  userCollection.remove({_id: req.params.id});
+  res.clearCookie('currentUser');
+  res.redirect('/');
+});
+
+//GET add new score page
+router.get('/challenges/:id/:day/scores', function(req, res, next){
+  challengeCollection.findOne({_id: req.params.id}, function(err, record){
+    userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
+      res.render('challenges/scores', {
+        thisUser: data,
+        thisChallenge: record,
+        day: req.params.day
+      });
+    });
+  })
+});
+
+//POST new score to challenge database
+router.post('/challenges/:id/:day/scores', function(req, res, next){
+  var dailyScore = functions.dailyScore(
+    req.body.healthy_meals,
+    req.body.unhealthy_meals,
+    req.body.workouts,
+    req.body.alcohol,
+    req.body.water,
+    req.body.perfect
+  );
+  challengeCollection.update( {_id: req.params.id},
+    {$push: {
+      scores: {user_id: req.cookies.currentUser, day: req.params.day, score: dailyScore}
+      }
+    });
+  res.redirect('/challenges' + req.params.id);
+});
 
 module.exports = router;
