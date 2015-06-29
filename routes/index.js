@@ -7,7 +7,7 @@ var challengeCollection = db.get('challenge');
 var db2 = require('monk')(process.env.MONGO_URI_USERS);
 var userCollection = db2.get('user');
 
-var functions = require('../public/javascripts/logic.js')
+var functions = require('../public/javascripts/functions.js')
 var validations = require('../public/javascripts/validations.js')
 
 var bcrypt = require('bcryptjs');
@@ -201,6 +201,7 @@ router.get('/challenges/:id/:day/scores', function(req, res, next){
 
 //POST new score to challenge database
 router.post('/challenges/:id/:day/scores', function(req, res, next){
+  console.log('*****************************');
   var dailyScore = functions.dailyScore(
     req.body.healthy_meals,
     req.body.unhealthy_meals,
@@ -209,12 +210,20 @@ router.post('/challenges/:id/:day/scores', function(req, res, next){
     req.body.water,
     req.body.perfect
   );
+
+  console.log(dailyScore);
   challengeCollection.update( {_id: req.params.id},
     {$push: {
-      scores: {user_id: req.cookies.currentUser, day: req.params.day, score: dailyScore}
+      scores: {
+        $each: [{
+        user_id: req.cookies.currentUser,
+        day: req.params.day,
+        score: dailyScore
+        }]
       }
+    }
     });
-  res.redirect('/challenges' + req.params.id);
+  res.redirect('/challenges/' + req.params.id);
 });
 
 module.exports = router;

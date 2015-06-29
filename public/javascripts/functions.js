@@ -8,8 +8,8 @@ module.exports = {
     return Number(healthy_meals * 3)
             + Number(workouts * 3)
             + Number(unhealthy_meals * -3)
-            + Number(alc * -1)
-            + Number(wat * .5)
+            + Number(alcohol * -1)
+            + Number(water * .5)
             + Number(perf)
   },
 

@@ -4,7 +4,7 @@ block content
   fieldset
     legend
       name Add New Score
-    form(action="/challenges/" + thisChallenge._id + day + "/scores" method="post")
+    form(action="/challenges/" + thisChallenge._id + "/" + day + "/scores" method="post")
       label(for="user_name") Player Name:
       p
       input(type="text" id="user_name" name="user_name" value=thisUser.user_name disabled)
