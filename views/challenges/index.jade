@@ -1,7 +1,10 @@
 extends ../layout
 
 block content
+  //- if currentUser
+  div.body
     h1 Choose an Active Challenge:
+    a(href="/challenges/new") Create a New Challenge
     table
       thead
         th Challenge Name
@@ -14,8 +17,10 @@ block content
             a(href='/challenges/' + challenge._id) #{challenge.challenge_name}
           td= challenge.start_date
           td #{challenge.challenge_length} Days
-          
-    a(href="/challenges/new") Create a New Challenge
+  div.logout
+    a(href="/users/" + currentUser) View User Profile
+    form(action="/logout" method="post")
+      input(type="submit" value="Logout")
   //- else 
   //-   p Sorry! You must be logged in to see this page.
   //-   a(href="/") Click here to Log In 

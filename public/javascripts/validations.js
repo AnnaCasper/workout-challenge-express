@@ -1,29 +1,56 @@
 module.exports = {
 
-  validEmail: function(input){
-    if(input.includes('@')){
-    } else {
-      return "Email must be a valid email address."
+  validateSignUp: function(name, email, password, confirm){
+    var errorArray = [];
+    if(password !== confirm){
+      errorArray.push("Passwords do not match.");
     };
-  },
 
-  passwordMatch: function(password, confirm){
-    if(password === confirm){
-    } else {
-      return "Passwords do not match."
-    };
-  },
-
-  passwordLength: function(password){
     if(password.length < 8){
-      return "Password must be at least 8 characters long."
+      errorArray.push("Password must be at least 8 characters long.");
     };
+
+    if(name == "" || name == null){
+      errorArray.push("Name must be filled out.");
+    };
+
+    if(email == "" || email == null){
+      errorArray.push("Email must be filled out.");
+    };
+
+    if(password == "" || password == null){
+      errorArray.push("Password must be filled out.");
+    };
+
+    if(confirm == "" || confirm == null){
+      errorArray.push("Password confirmation must be filled out.");
+    };
+
+    // if(email.includes('@')){
+    // } else {
+    //   errorArray.push("Email must be a valid email address.");
+    // };
+
+    // unique email func
+
+    return errorArray;
   },
 
-  blankCells: function(name, email, password, confirm){
-    if(name || email || password || confirm === ""){
-      return "All cells must be filled out."
+  validateNewChallenge: function(challenge_name, challenge_length, start_date){
+    var errorArray = [];
+    if(challenge_name == "" || challenge_name == null){
+      errorArray.push("Challenge name must be filled out.");
     };
+
+    if(challenge_length == "" || challenge_length == null){
+      errorArray.push("Challenge length must be filled out.");
+    };
+
+    if(start_date == ""){
+      errorArray.push("Challenge start date must be filled out.")
+    };
+
+    return errorArray;
   },
 
 };

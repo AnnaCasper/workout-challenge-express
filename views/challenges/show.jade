@@ -2,6 +2,8 @@ extends ../layout
 
 block content
   h1 Showing All Scores for #{thisChallenge.challenge_name}
+  p Challenge Start Date: #{thisChallenge.start_date}
+  p Challenge Length: #{thisChallenge.length}
   form(action="/join" method="post")
     input(type="submit" value="Join this challenge")
   p
@@ -37,5 +39,6 @@ block content
   p
   form(action="" method="post")
     input(type="submit" value="Delete Challenge")
+  a(href="/challenges") Back to Challenges
   
       

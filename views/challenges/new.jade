@@ -4,42 +4,85 @@ block content
   fieldset
     legend
       name Create A New Challenge
-    form(method="post" action="/challenges")
-      label(for="challenge_name") Name Your Challenge:
-      p
-      input(type="text" id="challenge_name" name="challenge_name")
-      p
-      p
-      label(for="challenge_length") How many days will your challenge be active?
-      p
-      select(id="challenge_length" name="challenge_length")
-        option(selected disabled) Choose one...
-        option 1 
-        option 2 
-        option 3
-        option 4
-        option 5
-        option 6
-        option 7
-        option 8
-        option 9
-        option 10
-        option 11
-        option 12
-        option 13
-        option 14
-        option 15
-        option 16
-        option 17
-        option 18
-        option 19 
-        option 20
-        option 21
-      p
-      label(for="start_date") Choose a start date for your challenge:
-      p
-      input(type="date" id="start_date" name="start_date")
-      p
-      input(type="submit" value="Create Challenge")
+    if errors 
+      for error in errors
+        p= error
+      form(method="post" action="/challenges")
+        label(for="challenge_name") Name Your Challenge:
+        p
+        input(type="text" id="challenge_name" name="challenge_name" value="#{challenge_name}")
+        p
+        p
+        label(for="challenge_length") How many days will your challenge be active?
+        p
+        select(id="challenge_length" name="challenge_length")
+          option(selected disabled) Choose one...
+          option 1 
+          option 2 
+          option 3
+          option 4
+          option 5
+          option 6
+          option 7
+          option 8
+          option 9
+          option 10
+          option 11
+          option 12
+          option 13
+          option 14
+          option 15
+          option 16
+          option 17
+          option 18
+          option 19 
+          option 20
+          option 21
+        p
+        label(for="start_date") Choose a start date for your challenge:
+        p
+        input(type="date" id="start_date" name="start_date")
+        p
+        input(type="submit" value="Create Challenge")
+      a(href="/challenges") cancel
+    else
+      form(method="post" action="/challenges")
+        label(for="challenge_name") Name Your Challenge:
+        p
+        input(type="text" id="challenge_name" name="challenge_name")
+        p
+        p
+        label(for="challenge_length") How many days will your challenge be active?
+        p
+        select(id="challenge_length" name="challenge_length")
+          option(selected disabled) Choose one...
+          option 1 
+          option 2 
+          option 3
+          option 4
+          option 5
+          option 6
+          option 7
+          option 8
+          option 9
+          option 10
+          option 11
+          option 12
+          option 13
+          option 14
+          option 15
+          option 16
+          option 17
+          option 18
+          option 19 
+          option 20
+          option 21
+        p
+        label(for="start_date") Choose a start date for your challenge:
+        p
+        input(type="date" id="start_date" name="start_date")
+        p
+        input(type="submit" value="Create Challenge")
+      a(href="/challenges") cancel
       
       

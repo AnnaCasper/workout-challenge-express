@@ -15,3 +15,12 @@ table, th, tr, td {
   padding: 5px;
   text-align: center;
 }
+
+.body {
+  float: left;
+}
+
+.logout {
+  float: left;
+  padding-left:100px;
+}

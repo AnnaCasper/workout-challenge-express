@@ -16,8 +16,4 @@ module.exports = {
     return Number(healthy_meals * 2) + Number(workouts * 3) + Number(unhealthy_meals * -3) + Number(alc) + Number(wat) + Number(cal)
   },
 
-  totalScore: function(){
-
-  },
-
 };
