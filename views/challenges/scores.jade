@@ -1,41 +1,48 @@
 extends ../layout
 
 block content
-  fieldset
-    legend
-      name Add New Score
-    form(action="/challenges/" + thisChallenge._id + "/" + day + "/scores" method="post")
-      label(for="user_name") Player Name:
-      p
-      input(type="text" id="user_name" name="user_name" value=thisUser.user_name disabled)
-      p
-      label(for="day") Day of Challenge:
-      p
-      input(type="text" id="day" name="day" value=day disabled)
-      p
-      label(for="healthy_meals") How many healthy meals today? (+3 points/each)
-      p
-      input(type="text" id="healthy_meals" name="healthy_meals")
-      p
-      label(for="unhealthy_meals") How many unhealthy meals today? (-3 points/each)
-      p
-      input(type="text" id="unhealthy_meals" name="unhealthy_meals")
-      p
-      lable(for="workouts") How many workouts today? (+3 points/each)
-      p
-      input(type="text" id="workouts" name="workouts")
-      p
-      label(for="alcohol") How many alcoholic drinks today? (-1 point/each)
-      p
-      input(type="text" id="alcohol" name="alcohol")
-      p
-      label(for="water") How many glasses of water today? (+.5 point/each)
-      p
-      input(type="text" id="water" name="water")
-      p
-      input(type="checkbox" id="perfect" name="perfect") 
-      label(for="perfect") Perfect Day (+1 point)
-      p
-      input(type="submit" value="Add Today's Score")
+  if currentUser
+    fieldset
+      legend
+        name Add New Score
+      form(action="/challenges/" + thisChallenge._id + "/" + day + "/scores" method="post")
+        label(for="user_name") Player Name:
+        p
+        input(type="text" id="user_name" name="user_name" value=thisUser.user_name disabled)
+        p
+        label(for="day") Day of Challenge:
+        p
+        input(type="text" id="day" name="day" value=day disabled)
+        p
+        label(for="healthy_meals") How many healthy meals today? (+3 points/each)
+        p
+        input(type="text" id="healthy_meals" name="healthy_meals")
+        p
+        label(for="unhealthy_meals") How many unhealthy meals today? (-3 points/each)
+        p
+        input(type="text" id="unhealthy_meals" name="unhealthy_meals")
+        p
+        lable(for="workouts") How many workouts today? (+3 points/each)
+        p
+        input(type="text" id="workouts" name="workouts")
+        p
+        label(for="alcohol") How many alcoholic drinks today? (-1 point/each)
+        p
+        input(type="text" id="alcohol" name="alcohol")
+        p
+        label(for="water") How many glasses of water today? (+.5 point/each)
+        p
+        input(type="text" id="water" name="water")
+        p
+        input(type="checkbox" id="perfect" name="perfect") 
+        label(for="perfect") Perfect Day (+1 point)
+        p
+        input(type="submit" value="Add Today's Score")
+  else
+    p Sorry! You must be logged in to see this page.
+    a(href="/") Click here to Log In 
+    p
+    p Don't have an account?
+    a(href="/users/new") Click here
             
     

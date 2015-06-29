@@ -53,19 +53,18 @@ router.post('/users/new', function(req, res, next){
       res.cookie('currentUser', data._id);
       res.redirect('/challenges');
     });
-}
-// else {
-  //     res.render('users/new', {
-  //       errors: errors,
-  //       user_name: req.body.user_name,
-  //       email: req.body.email
-  //       });
-  //   });
+  } else {
+      res.render('users/new', {
+        errors: errors,
+        user_name: req.body.user_name,
+        email: req.body.email
+        });
+    };
 });
 
 // GET new challenge page
 router.get('/challenges/new', function(req, res, next){
-  res.render('challenges/new');
+  res.render('challenges/new', {currentUser: req.cookies.currentUser});
 });
 
 // POST new challenge in database
@@ -97,14 +96,17 @@ router.post('/challenges', function(req, res, next){
 //GET challenges index page
 router.get('/challenges', function(req, res, next){
   challengeCollection.find({}, function(err, data){
-    res.render('challenges/index', {allChallenges: data});
+    res.render('challenges/index', {allChallenges: data, currentUser: req.cookies.currentUser});
   });
 });
 
 //GET show challenge page
 router.get('/challenges/:id', function(req, res, next){
   challengeCollection.findOne({_id: req.params.id}, function(err, data){
-    res.render('challenges/show', {thisChallenge: data});
+    var userIds = functions.displayIds(data.user_ids);
+    userCollection.find({ _id: {$in: userIds }}, function(err, record){
+      res.render('challenges/show', {thisChallenge: data, users: record, currentUser: req.cookies.currentUser});
+    });
   });
 });
 
@@ -126,7 +128,7 @@ router.post('/challenges/:id/join', function(req, res, next){
 //GET edit challenge page
 router.get('/challenges/:id/edit', function(req, res, next){
   challengeCollection.findOne({_id: req.params.id}, function(err, data){
-    res.render('challenges/edit', { thisChallenge: data});
+    res.render('challenges/edit', { thisChallenge: data, currentUser: req.cookies.currentUser});
   });
 });
 
@@ -151,7 +153,10 @@ router.post('/challenges/:id/delete', function(req, res, next){
 //GET show user profile
 router.get('/users/profile', function(req, res, next){
   userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
-    res.render('users/show', {thisUser: data});
+    var challengeIds = functions.displayIds(data.challenge_ids);
+    challengeCollection.find({ _id: {$in: challengeIds}}, function(err, record){
+      res.render('users/show', {thisUser: data, challenges: record, currentUser: req.cookies.currentUser});
+    })
   });
 });
 
@@ -164,7 +169,7 @@ router.post('/logout', function(req, res, next){
 //GET user profile page
 router.get('/users/:id/edit', function(req, res, next){
   userCollection.findOne({_id: req.params.id}, function(err, data){
-    res.render('users/edit', {thisUser: data});
+    res.render('users/edit', {thisUser: data, currentUser: req.cookies.currentUser});
   });
 });
 
@@ -193,7 +198,8 @@ router.get('/challenges/:id/:day/scores', function(req, res, next){
       res.render('challenges/scores', {
         thisUser: data,
         thisChallenge: record,
-        day: req.params.day
+        day: req.params.day,
+        currentUser: req.cookies.currentUser
       });
     });
   })

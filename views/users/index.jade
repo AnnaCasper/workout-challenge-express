@@ -1,6 +1,12 @@
 extends ../layouts
 
 block content
-  h1 All Challenge Players
-  
+  if currentUser
+    h1 All Challenge Players
+  else
+    p Sorry! You must be logged in to see this page.
+    a(href="/") Click here to Log In 
+    p
+    p Don't have an account?
+    a(href="/users/new") Click here
     

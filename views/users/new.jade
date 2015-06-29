@@ -2,43 +2,31 @@ extends ../layout
 
 block content
   h2 Sign Up for The Challenge
-  if errors
-    for error in errors
-      p= error
-    form(action="/users/new" method="post")
-      label(for="user_name") Name:
-      p
-      input(type="text" id="user_name" name="user_name" value="#{user_name}")
-      p
-      label(for="email") Email:
-      p
-      input(type="text" id="email" name="email" value="#{email}")
-      p
-      label(for="password") Password:
-      p
-      input(type="password" id="password" name="password")
-      p
-      label(for="confirm") Confirm Password:
-      p
-      input(type="password" id="confirm" name="confirm")
-      p
-      input(type="submit" value="Sign Up")
+  if currentUser 
+    p Woops it looks like 
   else
-    form(action="/users/new" method="post")
-      label(for="user_name") Name:
-      p
-      input(type="text" id="user_name" name="user_name")
-      p
-      label(for="email") Email:
-      p
-      input(type="text" id="email" name="email")
-      p
-      label(for="password") Password:
-      p
-      input(type="password" id="password" name="password")
-      p
-      label(for="confirm") Confirm Password:
-      p
-      input(type="password" id="confirm" name="confirm")
-      p
-      input(type="submit" value="Sign Up")
+    if errors
+      for error in errors
+        p= error
+      form(action="/users/new" method="post")
+        input(type="text" id="user_name" name="user_name" value="#{user_name}")
+        p
+        input(type="text" id="email" name="email" value="#{email}")
+        p
+        input(type="password" id="password" name="password" placeholder="Password")
+        p
+        input(type="password" id="confirm" name="confirm" placeholder="Confirm Password")
+        p
+        input(type="submit" value="Sign Up")
+    else
+      form(action="/users/new" method="post")
+        input(type="text" id="user_name" name="user_name" placeholder="Name")
+        p
+        input(type="text" id="email" name="email" placeholder="Email")
+        p
+        input(type="password" id="password" name="password" placeholder="Password")
+        p
+        input(type="password" id="confirm" name="confirm" placeholder="Confirm Password")
+        p
+        input(type="submit" value="Sign Up")
+    

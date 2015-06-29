@@ -1,3 +1,9 @@
+var db = require('monk')(process.env.MONGO_URI_CHALLENGES);
+var challengeCollection = db.get('challenge');
+
+var db2 = require('monk')(process.env.MONGO_URI_USERS);
+var userCollection = db2.get('user');
+
 module.exports = {
 
   dailyScore: function(healthy_meals, unhealthy_meals, workouts, alcohol, water, perfect){
@@ -11,6 +17,14 @@ module.exports = {
             + Number(alcohol * -1)
             + Number(water * .5)
             + Number(perf)
+  },
+
+  displayIds: function(array){
+    newArray = []
+    for (var i = 0; i < array.length; i++) {
+      newArray.push(userCollection.id(array[i]));
+    };
+    return newArray;
   },
 
 };

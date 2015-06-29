@@ -4,13 +4,9 @@ block content
   h1 Welcome to the Workout Challenge! 
     h2 Log In
     form(action="/login" method="post")
-      label(for="login_email") Email:
+      input(type="text" id="login_email" name="login_email" placeholder="Email")
       p
-      input(type="text" id="login_email" name="login_email")
-      p
-      label(for="login_password") Password:
-      p
-      input(type="password" id="login_password" name="login_password")
+      input(type="password" id="login_password" name="login_password" placeholder="Password")
       p
       input(type="submit" value="Log In")
     p

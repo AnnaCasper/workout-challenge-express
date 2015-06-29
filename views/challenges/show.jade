@@ -20,7 +20,9 @@ block content
           a(href="/challenges/"+ thisChallenge._id + "/" + count + "/scores") Day #{count++}
       th Total Score 
     tbody
-  
+      for user in users
+        tr
+          td= user.user_name
   p
   a(href="/challenges/" + thisChallenge._id + '/edit') Edit Challenge
   p
