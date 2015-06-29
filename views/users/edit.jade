@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  h2 Edit User Profile
+  form(action="/users/edit" method="post")
+    label(for="user_name") Name:
+    p
+    input(type="text" id="user_name" name="user_name" value="#{thisUser.user_name}")
+    p
+    label(for="email") Email:
+    p
+    input(type="text" id="email" name="email" value="#{thisUser.email}")
+    p
+    label(for="password") Password:
+    p
+    input(type="password" id="password" name="password")
+    p
+    label(for="confirm") Confirm Password:
+    p
+    input(type="password" id="confirm" name="confirm")
+    p
+    input(type="submit" value="Save Updates")
+  a(href="/users/profile") cancel

@@ -35,17 +35,32 @@ router.get('/users/new', function(req, res, next){
 
 //POST new user
 router.post('/users/new', function(req, res, next){
-  var errors = validations.validateSignUp(req.body.user_name, req.body.email, req.body.password, req.body.confirm);
-    if (errors.length > 0){
-      res.render('users/new', {errors: errors, user_name: req.body.user_name, email: req.body.email});
-    } else {
-      var hash = bcrypt.hashSync(req.body.password, 8);
-      userCollection.insert({user_name: req.body.user_name, email: req.body.email, password: hash});
-      userCollection.findOne({email: req.body.email}, function(err, data){
-        res.cookie('currentUser', data._id);
-        res.redirect('/challenges');
+  var errors = validations.validateSignUp(
+    req.body.user_name,
+    req.body.email,
+    req.body.password,
+    req.body.confirm
+    );
+  if (errors.length === 0){
+    var hash = bcrypt.hashSync(req.body.password, 8);
+    userCollection.insert({
+      user_name: req.body.user_name,
+      email: req.body.email,
+      password: hash,
+      challenge_ids: []
       });
-    };
+    userCollection.findOne({email: req.body.email}, function(err, data){
+      res.cookie('currentUser', data._id);
+      res.redirect('/challenges');
+    });
+}
+// else {
+  //     res.render('users/new', {
+  //       errors: errors,
+  //       user_name: req.body.user_name,
+  //       email: req.body.email
+  //       });
+  //   });
 });
 
 // GET new challenge page
@@ -64,14 +79,17 @@ router.post('/challenges', function(req, res, next){
     challengeCollection.insert({
       challenge_name: req.body.challenge_name,
       challenge_length: req.body.challenge_length,
-      start_date: req.body.start_date});
+      start_date: req.body.start_date,
+      user_ids: [],
+      scores: []
+      });
     res.redirect('/challenges');
   } else {
     res.render('challenges/new', {
       errors: errors,
       challenge_name: req.body.challenge_name,
       challenge_length: req.body.challenge_length,
-      start_date: req.body.start_date
+      start_date: req.body.start_date,
       });
   };
 });
@@ -108,7 +126,7 @@ router.post('/challenges/:id/edit', function(req, res, next){
     {$set: {
       challenge_name: req.body.challenge_name,
       challenge_length: req.body.challenge_length,
-      start_date: req.body.start_date
+      start_date: req.body.start_date,
       }});
   res.redirect('/challenges/' + req.params.id)
 });
@@ -120,11 +138,23 @@ router.post('/challenges/:id', function(req, res, next){
 });
 
 //GET show user profile
+router.get('/users/profile', function(req, res, next){
+  userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
+    res.render('users/show', {thisUser: data});
+  });
+});
 
 //POST user logout
 router.post('/logout', function(req, res, next){
   res.clearCookie('currentUser');
   res.redirect('/');
+});
+
+//GET user profile page
+router.get('/users/:id/edit', function(req, res, next){
+  userCollection.findOne({_id: req.params.id}, function(err, data){
+    res.render('users/edit', {thisUser: data});
+  });
 });
 
 

@@ -18,7 +18,7 @@ block content
           td= challenge.start_date
           td #{challenge.challenge_length} Days
   div.logout
-    a(href="/users/" + currentUser) View User Profile
+    a(href="/users/profile") View User Profile
     form(action="/logout" method="post")
       input(type="submit" value="Logout")
   //- else 

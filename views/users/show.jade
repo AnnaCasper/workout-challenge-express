@@ -1,4 +1,13 @@
 extends ../layout
 
 block content
-  h1 Showing Profile for 
+  h1 Showing Profile for #{thisUser.user_name}
+  p Email: #{thisUser.email}
+  p Challenges: #{thisUser.challenge_ids}
+  p
+  a(href="/users/" + thisUser._id + "/edit") Edit Profile
+  p
+  form(action="/users/" + thisUser.id + "/delete")
+    input(type="submit" value="Delete Profile")
+  p
+  a(href="/challenges") Back to Challenges
