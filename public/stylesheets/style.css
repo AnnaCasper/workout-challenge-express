@@ -101,7 +101,17 @@ fieldset {
 }
 .join-button {
   width: 200px;
-  background-color: #F0835B;
+  background-color: #6AD649;
   font-size: 16px;
+  border-radius: 5px;
+}
+.profile {
+  height: 200px;
+  width: 200px;
+  display:inline-block;
+}
 
+.profile-name {
+  display:inline-block;
+  padding: 20px;
 }

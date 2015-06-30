@@ -2,9 +2,11 @@ extends ../layout
 
 block content
   if currentUser
-    h1 #{thisUser.user_name}
-    p
-    a(href="/users/" + thisUser._id + "/edit") edit profile
+    img.profile(src="/images/default_avatar_female.jpg")
+    div.profile-name 
+      h1 #{thisUser.user_name}
+      p
+      a(href="/users/" + thisUser._id + "/edit") edit profile
     p email: #{thisUser.email}
     p challenges: 
     for challenge in challenges

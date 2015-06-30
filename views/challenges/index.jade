@@ -10,13 +10,13 @@ block content
     div.body
       h1 choose an active challenge:
       a(href="/challenges/new") create a new challenge
-      for challenge in allChallenges
-        div.challenge
-          div.challenge-name
-            h3
-              a.link-name(href='/challenges/' + challenge._id) #{challenge.challenge_name}
-          p Start Date: #{challenge.start_date}
-          p Challenge Length: #{challenge.challenge_length} Days
+    for challenge in allChallenges
+      div.challenge
+        div.challenge-name
+          h3
+            a.link-name(href='/challenges/' + challenge._id) #{challenge.challenge_name}
+        p Start Date: #{challenge.start_date}
+        p Challenge Length: #{challenge.challenge_length} Days
   else 
     p Sorry! You must be logged in to see this page.
     a(href="/") Click here to Log In 

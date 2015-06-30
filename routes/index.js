@@ -47,7 +47,8 @@ router.post('/users/new', function(req, res, next){
       user_name: req.body.user_name,
       email: req.body.email,
       password: hash,
-      challenge_ids: []
+      challenge_ids: [],
+      scores: []
       });
     userCollection.findOne({email: req.body.email}, function(err, data){
       res.cookie('currentUser', data._id);
@@ -215,6 +216,22 @@ router.post('/challenges/:id/:day/scores', function(req, res, next){
     req.body.water,
     req.body.perfect
   );
+  userCollection.update({_id: req.cookies.currentUser},
+    {$push: {
+      scores: {
+        $each: [{
+          challenge_id: req.params.id,
+          day: req.params.day,
+          healthy_meals: req.body.healthy_meals,
+          unhealthy_meals: req.body.unhealthy_meals,
+          workouts: req.body.workouts,
+          alcohol: req.body.alcohol,
+          water: req.body.water,
+          perfect: req.body.perfect,
+          score: dailyScore
+          }]
+        }
+      }});
   challengeCollection.update( {_id: req.params.id},
     {$push: {
       scores: {
