@@ -124,11 +124,15 @@ router.post('/challenges/:id/join', function(req, res, next){
       challenge_ids: req.params.id
       }
     });
-  challengeCollection.update({_id: req.params.id},
-    {$push: {
-      user_ids: req.cookies.currentUser
-      }
-    });
+  var currentUser = req.cookies.currentUser;
+  userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
+    challengeCollection.update({_id: req.params.id},
+      {$push: {
+        user_ids: req.cookies.currentUser,
+        scores: {'req.cookies.currentUser': []}
+        }
+      });
+  });
   res.redirect('/challenges/' + req.params.id);
 });
 
@@ -257,17 +261,19 @@ router.post('/challenges/:id/:day/scores', function(req, res, next){
               }]
             }
           }});
-      challengeCollection.update( {_id: req.params.id},
-        {$push: {
-          scores: {
-            $each: [{
-            user_id: req.cookies.currentUser,
-            day: req.params.day,
-            score: dailyScore
-            }]
-          }
-        }
-        });
+      var userScores = functions.displayIds(data.scores);
+
+      challengeCollection.find({_id: req.params.id}, { scores: {$elemMatch: {user_id: req.cookies.currentUser}}}, function(err, record){
+        console.log(data);
+      });
+        challengeCollection.update( {_id: req.params.id},
+          {$push: {
+            scores: {
+                scores:
+                  dailyScore
+              }
+            }
+          })
         res.redirect('/challenges/' + req.params.id);
       }
     else {
