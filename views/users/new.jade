@@ -6,9 +6,8 @@ block content
     p woops! it looks like you are already logged in. 
     p to continue to challenges, 
       a(href="/challenges") click here
-  else
+  else if errors
     h2 sign up for the challenge
-    if errors
       for error in errors
         p= error
       form(action="/users/new" method="post")
