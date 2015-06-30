@@ -3,9 +3,9 @@ var router = express.Router();
 
 var db = require('monk')(process.env.MONGO_URI_CHALLENGES);
 var challengeCollection = db.get('challenge');
+var userCollection = db.get('user');
 
-var db2 = require('monk')(process.env.MONGO_URI_USERS);
-var userCollection = db2.get('user');
+// var db2 = require('monk')(process.env.MONGO_URI_USERS);
 
 var functions = require('../public/javascripts/functions.js')
 var validations = require('../public/javascripts/validations.js')
