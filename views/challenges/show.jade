@@ -1,33 +1,35 @@
 extends ../layout
 
 block content
-  h1 Showing All Scores for #{thisChallenge.challenge_name}
-  p Challenge Start Date: #{thisChallenge.start_date}
-  p Challenge Length: #{thisChallenge.challenge_length} Days
-  form(action="/challenges/" + thisChallenge._id + "/join" method="post")
-    input(type="submit" value="Join this challenge")
-  p
-  p
-  p Click on the day to add your score!
-  p
-  table 
-    thead
-     tr
-     th Player Name
-     - var count = 1
-      while count <= thisChallenge.challenge_length
-        th 
-          a(href="/challenges/"+ thisChallenge._id + "/" + count + "/scores") Day #{count++}
-      th Total Score 
-    tbody
-      for user in users
-        tr
-          td= user.user_name
-  p
-  a(href="/challenges/" + thisChallenge._id + '/edit') Edit Challenge
-  p
-  form(action="/challenges/" + thisChallenge._id + "/delete" method="post")
-    input(type="submit" value="Delete Challenge")
-  a(href="/challenges") Back to Challenges
+  div.content
+    h1 all scores for #{thisChallenge.challenge_name}
+    p challenge start date: #{thisChallenge.start_date}
+    p challenge length: #{thisChallenge.challenge_length} days
+    form(action="/challenges/" + thisChallenge._id + "/join" method="post")
+      input.join-button(type="submit" value="join this challenge!")
+    p
+    p
+    p click on the day to add your score
+    p
+    table 
+      thead
+       tr
+       th player name
+       - var count = 1
+        while count <= thisChallenge.challenge_length
+          th 
+            a(href="/challenges/"+ thisChallenge._id + "/" + count + "/scores") day #{count++}
+        th total score 
+      tbody
+        for user in users
+          tr
+            td= user.user_name
+    p
+    a(href="/challenges/" + thisChallenge._id + '/edit') edit challenge
+  div.exit
+    form(action="/challenges/" + thisChallenge._id + "/delete" method="post")
+      input(type="submit" value="delete challenge")
+    p
+    a(href="/challenges") back to challenges
   
       

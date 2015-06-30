@@ -1,15 +1,24 @@
 extends layout
 
 block content
-  h1 Welcome to the Workout Challenge! 
-    h2 Log In
-    form(action="/login" method="post")
-      input(type="text" id="login_email" name="login_email" placeholder="Email")
-      p
-      input(type="password" id="login_password" name="login_password" placeholder="Password")
-      p
-      input(type="submit" value="Log In")
+  if currentUser
+    h1 welcome to the challenge
+    h3 get fit. stay healthy. together.
+    p it looks like you are already logged in. 
+    p to continue to challenges, 
+      a(href="/challenges") click here
+  else
+    h1 welcome to the challenge
+    h3 get fit. stay healthy. together.
     p
-    p Don't have an account? 
-      a(href="/users/new") Click Here
+    h2 log in
+    form(action="/login" method="post")
+      input(type="text" id="login_email" name="login_email" placeholder="email")
+      p
+      input(type="password" id="login_password" name="login_password" placeholder="password")
+      p
+      input(type="submit" value="log in")
+      p
+      p don't have an account? 
+        a(href="/users/new") click here
   

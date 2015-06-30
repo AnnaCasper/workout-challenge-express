@@ -2,26 +2,27 @@ extends ../layout
 
 block content
   if currentUser
-    h2 Edit User Profile
+    h2 edit player profile
     form(action="/users/" + thisUser._id + "/edit" method="post")
-      label(for="user_name") Name:
+      label(for="user_name") name:
       p
       input(type="text" id="user_name" name="user_name" value="#{thisUser.user_name}")
       p
-      label(for="email") Email:
+      label(for="email") email:
       p
       input(type="text" id="email" name="email" value="#{thisUser.email}")
       p
-      label(for="password") Password:
+      label(for="password") password:
       p
       input(type="password" id="password" name="password")
       p
-      label(for="confirm") Confirm Password:
+      label(for="confirm") confirm password:
       p
       input(type="password" id="confirm" name="confirm")
       p
-      input(type="submit" value="Save Updates")
-    a(href="/users/profile") cancel
+      input(type="submit" value="save updates")
+      p
+      a(href="/users/profile") cancel
   else
     p Sorry! You must be logged in to see this page.
     a(href="/") Click here to Log In 

@@ -4,7 +4,8 @@ block content
   if currentUser
     fieldset
       legend
-        name Create A New Challenge
+        h2
+          name create a new challenge
       if errors 
         for error in errors
           p= error
@@ -83,7 +84,9 @@ block content
           p
           input(type="date" id="start_date" name="start_date")
           p
-          input(type="submit" value="Create Challenge")
+          p
+          input(type="submit" value="create challenge")
+          p
         a(href="/challenges") cancel
   else
     p Sorry! You must be logged in to see this page.

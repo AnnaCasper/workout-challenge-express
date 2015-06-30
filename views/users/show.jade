@@ -2,18 +2,20 @@ extends ../layout
 
 block content
   if currentUser
-    h1 Showing Profile for #{thisUser.user_name}
-    p Email: #{thisUser.email}
-    p Challenges: 
+    h1 #{thisUser.user_name}
+    p
+    a(href="/users/" + thisUser._id + "/edit") edit profile
+    p email: #{thisUser.email}
+    p challenges: 
     for challenge in challenges
       p= challenge.challenge_name
+    
     p
-    a(href="/users/" + thisUser._id + "/edit") Edit Profile
-    p
-    form(action="/users/" + thisUser._id + "/delete" method="post")
-      input(type="submit" value="Delete Profile")
-    p
-    a(href="/challenges") Back to Challenges
+    div.exit
+      form(action="/users/" + thisUser._id + "/delete" method="post")
+        input(type="submit" value="delete profile")
+      p
+      a(href="/challenges") back to challenges
   else
     p Sorry! You must be logged in to see this page.
     a(href="/") Click here to Log In 

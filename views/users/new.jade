@@ -1,10 +1,13 @@
 extends ../layout
 
 block content
-  h2 Sign Up for The Challenge
+  
   if currentUser 
-    p Woops it looks like 
+    p woops! it looks like you are already logged in. 
+    p to continue to challenges, 
+      a(href="/challenges") click here
   else
+    h2 sign up for the challenge
     if errors
       for error in errors
         p= error
@@ -13,20 +16,21 @@ block content
         p
         input(type="text" id="email" name="email" value="#{email}")
         p
-        input(type="password" id="password" name="password" placeholder="Password")
+        input(type="password" id="password" name="password" placeholder="password")
         p
-        input(type="password" id="confirm" name="confirm" placeholder="Confirm Password")
+        input(type="password" id="confirm" name="confirm" placeholder="confirm password")
         p
         input(type="submit" value="Sign Up")
     else
+      h2 sign up for the challenge
       form(action="/users/new" method="post")
-        input(type="text" id="user_name" name="user_name" placeholder="Name")
+        input(type="text" id="user_name" name="user_name" placeholder="name")
         p
-        input(type="text" id="email" name="email" placeholder="Email")
+        input(type="text" id="email" name="email" placeholder="email")
         p
-        input(type="password" id="password" name="password" placeholder="Password")
+        input(type="password" id="password" name="password" placeholder="password")
         p
-        input(type="password" id="confirm" name="confirm" placeholder="Confirm Password")
+        input(type="password" id="confirm" name="confirm" placeholder="confirm password")
         p
-        input(type="submit" value="Sign Up")
+        input(type="submit" value="sign up")
     

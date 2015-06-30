@@ -2,25 +2,21 @@ extends ../layout
 
 block content
   if currentUser
-    div.body
-      h1 Choose an Active Challenge:
-      a(href="/challenges/new") Create a New Challenge
-      table
-        thead
-          th Challenge Name
-          th Challenge Start Date 
-          th Challenge Length
-        tbody
-        for challenge in allChallenges
-          tr
-            td
-              a(href='/challenges/' + challenge._id) #{challenge.challenge_name}
-            td= challenge.start_date
-            td #{challenge.challenge_length} Days
     div.logout
-      a(href="/users/profile") View User Profile
+      a(href="/users/profile") view player profile
+      p
       form(action="/logout" method="post")
-        input(type="submit" value="Logout")
+        input(type="submit" value="logout")
+    div.body
+      h1 choose an active challenge:
+      a(href="/challenges/new") create a new challenge
+      for challenge in allChallenges
+        div.challenge
+          div.challenge-name
+            h3
+              a.link-name(href='/challenges/' + challenge._id) #{challenge.challenge_name}
+          p Start Date: #{challenge.start_date}
+          p Challenge Length: #{challenge.challenge_length} Days
   else 
     p Sorry! You must be logged in to see this page.
     a(href="/") Click here to Log In 

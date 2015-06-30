@@ -4,17 +4,18 @@ block content
   if currentUser
     fieldset
       legend
-        name Edit #{thisChallenge.challenge_name}
+        h2
+          name edit #{thisChallenge.challenge_name}
       form(method="post" action="")
-        label(for="challenge_name") Challenge Name:
+        label(for="challenge_name") challenge name:
         p
         input(type="text" id="challenge_name" name="challenge_name" value=thisChallenge.challenge_name)
         p
         p
-        label(for="challenge_length") How many days will your challenge be active?
+        label(for="challenge_length") how many days will your challenge be active?
         p
         select(id="challenge_length" name="challenge_length" value=thisChallenge.challenge_length)
-          option(disabled) Choose one...
+          option(disabled) choose one...
           option 1 
           option 2 
           option 3
@@ -37,11 +38,13 @@ block content
           option 20
           option 21
         p
-        label(for="start_date") Choose a start date for your challenge:
+        label(for="start_date") choose a start date for your challenge:
         p
         input(type="date" id="start_date" name="start_date" value=thisChallenge.start_date)
         p
-        input(type="submit" value="Save Updates")
+        input(type="submit" value="save updates")
+        p
+        p
         a(href="/challenges") cancel
   else
     p Sorry! You must be logged in to see this page.

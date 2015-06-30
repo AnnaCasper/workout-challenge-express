@@ -14,7 +14,7 @@ var bcrypt = require('bcryptjs');
 
 // GET home page/login page
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'The Workout Challenge' });
+  res.render('index', { title: 'The Workout Challenge', currentUser: req.cookies.currentUser});
 });
 
 //user login
@@ -30,7 +30,7 @@ router.post('/login', function(req, res, next){
 
 //GET new user page
 router.get('/users/new', function(req, res, next){
-  res.render('users/new');
+  res.render('users/new', {currentUser: req.cookies.currentUser});
 });
 
 //POST new user
@@ -207,7 +207,6 @@ router.get('/challenges/:id/:day/scores', function(req, res, next){
 
 //POST new score to challenge database
 router.post('/challenges/:id/:day/scores', function(req, res, next){
-  console.log('*****************************');
   var dailyScore = functions.dailyScore(
     req.body.healthy_meals,
     req.body.unhealthy_meals,
@@ -216,8 +215,6 @@ router.post('/challenges/:id/:day/scores', function(req, res, next){
     req.body.water,
     req.body.perfect
   );
-
-  console.log(dailyScore);
   challengeCollection.update( {_id: req.params.id},
     {$push: {
       scores: {

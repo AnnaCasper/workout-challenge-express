@@ -1,6 +1,78 @@
 body {
-  padding: 50px;
+  font-family: 'Avant Garde', Avantgarde, 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+	font-size: 16px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 400;
+	line-height: 20px;
+  color: white;
+  background-image: url("/images/background.jpg");
+  background-position:center;
+  background-repeat: no-repeat;
+  background-size: 100% 1200px;
+}
+
+h1 {
+  font-size: 35px;
+}
+
+h3 {
+  font-size: 18px;
+}
+.homepage {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: white;
+  background-image: url("/images/01.jpg");
+  background-position:center;
+  background-repeat: no-repeat;
+  background-size: 100% 1200px;
+}
+
+.header {
+  background-image: url("/images/01.jpg");
+  background-size: auto;
+  height: 200px;
+}
+
+.challenge {
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 50px;
+  padding-right:50px;
+  float: left;
+  width: 17%;
+  display:inline-block;
+}
+
+.challenge-name {
+  border-radius: 15px;
+  padding:2px;
+  border: 1px solid #6AD649;
+  background-color: #6AD649;
+  width: 100%;
+}
+
+.background {
+  padding: 50px;
+}
+
+.body {
+  text-align: center;
+  display: inline-block;
+  float: left;
+  width: 100%;
+}
+
+.logout {
+  text-align: right;
+  float: right;
+  padding-left:100px;
+  display: inline-block;
+}
+
+.link-name {
+  color:white;
 }
 
 a {
@@ -8,19 +80,28 @@ a {
 }
 
 table {
+  margin:auto;
   border-collapse: collapse;
 }
+
 table, th, tr, td {
   border: 1px solid black;
-  padding: 5px;
+  padding: 10px;
   text-align: center;
 }
 
-.body {
-  float: left;
+fieldset {
+  padding: 50px;
 }
+.exit{
+  float:right;
+}
+.content{
+  text-align: center;
+}
+.join-button {
+  width: 200px;
+  background-color: #F0835B;
+  font-size: 16px;
 
-.logout {
-  float: left;
-  padding-left:100px;
 }
