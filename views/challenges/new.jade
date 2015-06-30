@@ -8,7 +8,7 @@ block content
           name create a new challenge
       if errors 
         for error in errors
-          p= error
+          p.error= error
         form(method="post" action="/challenges")
           label(for="challenge_name") Name Your Challenge:
           p

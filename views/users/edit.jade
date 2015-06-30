@@ -4,6 +4,10 @@ block content
   if currentUser
     h2 edit player profile
     form(action="/users/" + thisUser._id + "/edit" method="post")
+      label(for="profile_pic") upload a profile picture:
+      p
+      input(type="file" id="profile_pic" name="profile_pic")
+      p
       label(for="user_name") name:
       p
       input(type="text" id="user_name" name="user_name" value="#{thisUser.user_name}")

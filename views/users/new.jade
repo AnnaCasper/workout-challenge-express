@@ -10,7 +10,7 @@ block content
     if errors
       h2 sign up for the challenge
       for error in errors
-        p= error
+        p.error= error
       form(action="/users/new" method="post")
         input(type="text" id="user_name" name="user_name" value="#{user_name}")
         p

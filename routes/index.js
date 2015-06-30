@@ -5,8 +5,6 @@ var db = require('monk')(process.env.MONGO_URI_CHALLENGES);
 var challengeCollection = db.get('challenge');
 var userCollection = db.get('user');
 
-// var db2 = require('monk')(process.env.MONGO_URI_USERS);
-
 var functions = require('../public/javascripts/functions.js')
 var validations = require('../public/javascripts/validations.js')
 
@@ -20,10 +18,16 @@ router.get('/', function(req, res, next) {
 //user login
 router.post('/login', function(req, res, next){
   userCollection.findOne({ email: req.body.login_email}, function(err, data){
-    var compare = bcrypt.compareSync(req.body.login_password, data.password);
-    if (compare === true){
-      res.cookie('currentUser', data._id);
-      res.redirect('/challenges');
+    if (data == null){
+      res.render('index', { errors: "There is no account associated with this email. Please create a new account."});
+    } else {
+      var compare = bcrypt.compareSync(req.body.login_password, data.password);
+      if (compare === true){
+        res.cookie('currentUser', data._id);
+        res.redirect('/challenges');
+      } else {
+        res.render('index', {errors: "Email and password do not match."})
+      };
     };
   });
 });
@@ -45,6 +49,7 @@ router.post('/users/new', function(req, res, next){
     var hash = bcrypt.hashSync(req.body.password, 8);
     userCollection.insert({
       user_name: req.body.user_name,
+      profile_pic: "",
       email: req.body.email,
       password: hash,
       challenge_ids: [],
@@ -106,6 +111,7 @@ router.get('/challenges/:id', function(req, res, next){
   challengeCollection.findOne({_id: req.params.id}, function(err, data){
     var userIds = functions.displayIds(data.user_ids);
     userCollection.find({ _id: {$in: userIds }}, function(err, record){
+      var displayScores = functions.displayScores(data.scores);
       res.render('challenges/show', {thisChallenge: data, users: record, currentUser: req.cookies.currentUser});
     });
   });
@@ -179,6 +185,7 @@ router.post('/users/:id/edit', function(req, res, next){
   userCollection.update({_id: req.params.id},
     { $set: {
       user_name: req.body.user_name,
+      profile_pic: req.body.profile_pic,
       email: req.body.email
       }
     });
@@ -208,42 +215,79 @@ router.get('/challenges/:id/:day/scores', function(req, res, next){
 
 //POST new score to challenge database
 router.post('/challenges/:id/:day/scores', function(req, res, next){
-  var dailyScore = functions.dailyScore(
-    req.body.healthy_meals,
-    req.body.unhealthy_meals,
-    req.body.workouts,
-    req.body.alcohol,
-    req.body.water,
-    req.body.perfect
-  );
-  userCollection.update({_id: req.cookies.currentUser},
-    {$push: {
-      scores: {
-        $each: [{
+  challengeCollection.findOne({_id: req.params.id}, function(err, data){
+    var userIds = data.user_ids;
+    var scores = data.scores;
+
+    var errors = validations.validateNewScore(
+      req.params.id,
+      req.cookies.currentUser,
+      req.body.healthy_meals,
+      req.body.unhealthy_meals,
+      req.body.workouts,
+      req.body.alcohol,
+      req.body.water,
+      req.body.perfect,
+      userIds,
+      scores,
+      req.params.day
+      );
+    if(errors.length === 0){
+      var dailyScore = functions.dailyScore(
+        req.body.healthy_meals,
+        req.body.unhealthy_meals,
+        req.body.workouts,
+        req.body.alcohol,
+        req.body.water,
+        req.body.perfect
+      );
+      userCollection.update({_id: req.cookies.currentUser},
+        {$push: {
+          scores: {
+            $each: [{
+              challenge_id: req.params.id,
+              day: req.params.day,
+              healthy_meals: req.body.healthy_meals,
+              unhealthy_meals: req.body.unhealthy_meals,
+              workouts: req.body.workouts,
+              alcohol: req.body.alcohol,
+              water: req.body.water,
+              perfect: req.body.perfect,
+              score: dailyScore
+              }]
+            }
+          }});
+      challengeCollection.update( {_id: req.params.id},
+        {$push: {
+          scores: {
+            $each: [{
+            user_id: req.cookies.currentUser,
+            day: req.params.day,
+            score: dailyScore
+            }]
+          }
+        }
+        });
+        res.redirect('/challenges/' + req.params.id);
+      }
+    else {
+      userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
+        res.render('challenges/scores', {
+          user_name: data.user_name,
           challenge_id: req.params.id,
           day: req.params.day,
+          currentUser: req.cookies.currentUser,
+          errors: errors,
           healthy_meals: req.body.healthy_meals,
           unhealthy_meals: req.body.unhealthy_meals,
           workouts: req.body.workouts,
           alcohol: req.body.alcohol,
           water: req.body.water,
-          perfect: req.body.perfect,
-          score: dailyScore
-          }]
-        }
-      }});
-  challengeCollection.update( {_id: req.params.id},
-    {$push: {
-      scores: {
-        $each: [{
-        user_id: req.cookies.currentUser,
-        day: req.params.day,
-        score: dailyScore
-        }]
-      }
-    }
-    });
-  res.redirect('/challenges/' + req.params.id);
+          perfect: req.body.perfect
+          });
+      })
+    };
+  });
 });
 
 module.exports = router;

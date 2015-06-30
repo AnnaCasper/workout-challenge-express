@@ -12,13 +12,25 @@ block content
     h3 get fit. stay healthy. together.
     p
     h2 log in
-    form(action="/login" method="post")
-      input(type="text" id="login_email" name="login_email" placeholder="email")
-      p
-      input(type="password" id="login_password" name="login_password" placeholder="password")
-      p
-      input(type="submit" value="log in")
-      p
-      p don't have an account? 
-        a(href="/users/new") click here
+    if errors
+      p.error= errors
+      form(action="/login" method="post")
+        input(type="text" id="login_email" name="login_email" placeholder="email")
+        p
+        input(type="password" id="login_password" name="login_password" placeholder="password")
+        p
+        input(type="submit" value="log in")
+        p
+        p don't have an account? 
+          a(href="/users/new") click here
+    else
+      form(action="/login" method="post")
+        input(type="text" id="login_email" name="login_email" placeholder="email")
+        p
+        input(type="password" id="login_password" name="login_password" placeholder="password")
+        p
+        input(type="submit" value="log in")
+        p
+        p don't have an account? 
+          a(href="/users/new") click here
   
