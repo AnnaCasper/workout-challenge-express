@@ -4,9 +4,8 @@ var userCollection = db.get('user');
 
 module.exports = {
 
-  validateSignUp: function(name, email, password, confirm){
+  validateSignUp: function(name, email, password, confirm, duplicateError){
     var errorArray = [];
-    userCollection.find({email: email}, function(err, data){
 
       if(password !== confirm){
         errorArray.push("Passwords do not match.");
@@ -32,18 +31,24 @@ module.exports = {
         errorArray.push("Password confirmation must be filled out.");
       };
 
-      // if(email.includes('@')){
-      // } else {
-      //   errorArray.push("Email must be a valid email address.");
-      // };
-
-      if (data){
+      if (duplicateError != 0){
         errorArray.push("There is already an account associated with this email address. Please enter a unique email.")
       };
 
-      return errorArray;
-    });
+    return errorArray;
+  },
 
+  existingEmail: function(email, callback){
+    var error = 0;
+    userCollection.find({email: email}, function(err, data){
+      console.log(data);
+      if (data.length >= 1){
+        error = 1;
+      } else {
+        error = 0;
+      };
+      callback(error);
+    });
   },
 
   validateNewChallenge: function(challenge_name, challenge_length, start_date){
