@@ -21,11 +21,11 @@ block content
             a(href="/challenges/"+ thisChallenge._id + "/" + count + "/scores") day #{count++}
         th total score 
       tbody
-        for item in thisChallenge.scores
+        for row in challenge
           tr
-            td= item.user_name
-            td= item.scores
-            
+            for cell in row
+              td= cell
+    
     p
     a(href="/challenges/" + thisChallenge._id + '/edit') edit challenge
   div.exit
