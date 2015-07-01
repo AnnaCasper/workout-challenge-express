@@ -133,8 +133,11 @@ router.post('/challenges/:id/join', function(req, res, next){
   userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
     challengeCollection.update({_id: req.params.id},
       {$push: {
-        user_ids: req.cookies.currentUser,
+        user_ids: {
+          user_id: req.cookies.currentUser,
+          user_name: data.user_name
         }
+      }
       });
   });
   res.redirect('/challenges/' + req.params.id);

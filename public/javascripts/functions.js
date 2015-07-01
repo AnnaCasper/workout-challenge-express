@@ -29,7 +29,7 @@ module.exports = {
   displayScores: function(challenge) {
     var newArray = [];
     for (var i = 0; i < challenge.user_ids.length; i++) {
-      newArray.push([challenge.user_ids[i]])
+      newArray.push([challenge.user_ids[i].user_id, challenge.user_ids[i].user_name])
     };
 
     for (var j = 0; j < newArray.length; j++) {
@@ -52,7 +52,7 @@ module.exports = {
   totalScore: function(challengeScores){
     for (var i = 0; i < challengeScores.length; i++) {
       var total = 0;
-      for (var j = 1; j < challengeScores[i].length; j++) {
+      for (var j = 2; j < challengeScores[i].length; j++) {
         total += challengeScores[i][j]
       };
       challengeScores[i].push(total)
