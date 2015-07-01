@@ -132,6 +132,7 @@ router.post('/challenges/:id/join', function(req, res, next){
     challengeCollection.update({_id: req.params.id},
       {$push: {
         user_ids: req.cookies.currentUser,
+        scores: {user_id: req.cookies.currentUser, user_name: data.user_name, scores: []}
         }
       });
   });
@@ -263,20 +264,39 @@ router.post('/challenges/:id/:day/scores', function(req, res, next){
               }]
             }
           }});
-      var userScores = functions.displayIds(data.scores);
+      // var userScores = functions.displayIds(data.scores);
 
-      challengeCollection.find({_id: req.params.id}, { scores: {$elemMatch: {user_id: req.cookies.currentUser}}}, function(err, record){
-        console.log(data);
+      challengeCollection.find({_id: req.params.id}, function(err, item){
+        console.log("************* ITEM ***********");
+        console.log("************* ITEM ***********");
+        console.log(item[0].scores);
+        console.log("********* BEGIN LOOPING ***********");
+        console.log("********************");
+        item[0].scores.forEach(function(user){
+          if(user.user_id === req.cookies.currentUser){
+            user.scores.push(dailyScore);
+            // user.scores.push("26");
+            console.log(user);
+            challengeCollection.update({_id: req.params.id}, {$push: {
+              scores: user
+            }});
+        };
+                // iterate through time.scores array and find the user
+        // user.score.push(score to add)
       });
-        challengeCollection.update( {_id: req.params.id},
-          {$push: {
-            scores: {
-              user_id: req.cookies.currentUser,
-              day: req.params.day,
-              score: dailyScore
-              }
-            }
-          })
+    });
+      // find the document for the challenge (record)
+        // {$push: {'scores.$.score': dailyScore}});
+        // console.log(record);
+        // challengeCollection.update( {_id: req.params.id},
+        //   {$push: {
+        //     scores: {
+        //       user_id: req.cookies.currentUser,
+        //       day: req.params.day,
+        //       score: dailyScore
+        //       }
+        //     }
+        //   })
         res.redirect('/challenges/' + req.params.id);
       }
     else {

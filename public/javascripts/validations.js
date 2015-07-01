@@ -69,9 +69,7 @@ module.exports = {
 
   validateNewScore: function(challenge_id, currentUser, healthy_meals, unhealthy_meals, workouts, alcohol, water, perfect, user_ids, scores, day){
     var errorArray = [];
-      console.log(scores);
       var y = scores.indexOf({user_id: currentUser, day: day, });
-      console.log(y);
       var x = user_ids.indexOf(currentUser);
       if( x === -1){
         errorArray.push("You must go back and join this challenge before you can enter a score.")
