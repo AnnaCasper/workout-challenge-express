@@ -39,33 +39,36 @@ router.get('/users/new', function(req, res, next){
 
 //POST new user
 router.post('/users/new', function(req, res, next){
-  var errors = validations.validateSignUp(
-    req.body.user_name,
-    req.body.email,
-    req.body.password,
-    req.body.confirm
-    );
-  if (errors.length === 0){
-    var hash = bcrypt.hashSync(req.body.password, 8);
-    userCollection.insert({
-      user_name: req.body.user_name,
-      profile_pic: "",
-      email: req.body.email,
-      password: hash,
-      challenge_ids: [],
-      scores: []
-      });
-    userCollection.findOne({email: req.body.email}, function(err, data){
-      res.cookie('currentUser', data._id);
-      res.redirect('/challenges');
-    });
-  } else {
-      res.render('users/new', {
-        errors: errors,
+  var uniqueEmail = validations.existingEmail(req.body.email, function(duplicateError){
+    console.log(duplicateError);
+    var errors = validations.validateSignUp(
+      req.body.user_name,
+      req.body.email,
+      req.body.password,
+      req.body.confirm,
+      duplicateError);
+    if (errors.length === 0){
+      var hash = bcrypt.hashSync(req.body.password, 8);
+      userCollection.insert({
         user_name: req.body.user_name,
-        email: req.body.email
+        profile_pic: "",
+        email: req.body.email,
+        password: hash,
+        challenge_ids: [],
+        scores: []
         });
-    };
+      userCollection.findOne({email: req.body.email}, function(err, data){
+        res.cookie('currentUser', data._id);
+        res.redirect('/challenges');
+      });
+    } else {
+        res.render('users/new', {
+          errors: errors,
+          user_name: req.body.user_name,
+          email: req.body.email
+          });
+      };
+  })
 });
 
 // GET new challenge page
@@ -129,7 +132,6 @@ router.post('/challenges/:id/join', function(req, res, next){
     challengeCollection.update({_id: req.params.id},
       {$push: {
         user_ids: req.cookies.currentUser,
-        scores: {'req.cookies.currentUser': []}
         }
       });
   });
@@ -269,8 +271,9 @@ router.post('/challenges/:id/:day/scores', function(req, res, next){
         challengeCollection.update( {_id: req.params.id},
           {$push: {
             scores: {
-                scores:
-                  dailyScore
+              user_id: req.cookies.currentUser,
+              day: req.params.day,
+              score: dailyScore
               }
             }
           })
