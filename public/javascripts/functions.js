@@ -42,7 +42,10 @@ module.exports = {
       for (var j = 0; j < challenge.scores.length; j++) {
         var hello = newArray[i][0];
         if(challenge.scores[j].user_id === hello){
-          newArray[i][challenge.scores[j].day] = challenge.scores[j].score
+          var x = challenge.scores[j].day
+          console.log(x);
+          console.log(newArray[i][parseInt(x) + 1])
+          newArray[i][parseInt(x) + 1] = challenge.scores[j].score
         };
       };
     };

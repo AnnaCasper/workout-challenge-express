@@ -112,6 +112,7 @@ router.get('/challenges', function(req, res, next){
 //GET show challenge page
 router.get('/challenges/:id', function(req, res, next){
   challengeCollection.findOne({_id: req.params.id}, function(err, data){
+
     var challengeScores = functions.displayScores(data);
     var fullScores = functions.totalScore(challengeScores);
     // var userIds = functions.displayIds(data.user_ids);
@@ -229,78 +230,81 @@ router.post('/challenges/:id/:day/scores', function(req, res, next){
   challengeCollection.findOne({_id: req.params.id}, function(err, data){
     var userIds = data.user_ids;
     var scores = data.scores;
-
-    var errors = validations.validateNewScore(
-      req.params.id,
-      req.cookies.currentUser,
-      req.body.healthy_meals,
-      req.body.unhealthy_meals,
-      req.body.workouts,
-      req.body.alcohol,
-      req.body.water,
-      req.body.perfect,
-      userIds,
-      scores,
-      req.params.day
-      );
-    if(errors.length === 0){
-      var dailyScore = functions.dailyScore(
+    userCollection.findOne({_id: req.cookies.currentUser}, function(err, record){
+      var errors = validations.validateNewScore(
+        record.user_name,
+        req.params.id,
+        req.cookies.currentUser,
         req.body.healthy_meals,
         req.body.unhealthy_meals,
         req.body.workouts,
         req.body.alcohol,
         req.body.water,
-        req.body.perfect
-      );
-      userCollection.update({_id: req.cookies.currentUser},
-        {$push: {
-          scores: {
-            $each: [{
-              challenge_id: req.params.id,
-              day: req.params.day,
-              healthy_meals: req.body.healthy_meals,
-              unhealthy_meals: req.body.unhealthy_meals,
-              workouts: req.body.workouts,
-              alcohol: req.body.alcohol,
-              water: req.body.water,
-              perfect: req.body.perfect,
-              score: dailyScore
-              }]
-            }
-          }});
-      userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
-        challengeCollection.update( {_id: req.params.id},
+        req.body.perfect,
+        userIds,
+        scores,
+        req.params.day
+        );
+      if(errors.length === 0){
+        var dailyScore = functions.dailyScore(
+          req.body.healthy_meals,
+          req.body.unhealthy_meals,
+          req.body.workouts,
+          req.body.alcohol,
+          req.body.water,
+          req.body.perfect
+        );
+
+        userCollection.update({_id: req.cookies.currentUser},
           {$push: {
             scores: {
-              user_id: req.cookies.currentUser,
-              user_name: data.user_name,
-              day: req.params.day,
-              score: dailyScore
+              $each: [{
+                challenge_id: req.params.id,
+                day: req.params.day,
+                healthy_meals: req.body.healthy_meals,
+                unhealthy_meals: req.body.unhealthy_meals,
+                workouts: req.body.workouts,
+                alcohol: req.body.alcohol,
+                water: req.body.water,
+                perfect: req.body.perfect,
+                score: dailyScore
+                }]
               }
-            }
-          })
-      })
+            }});
 
-          res.redirect('/challenges/' + req.params.id);
-        }
-    else {
-      userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
-        res.render('challenges/scores', {
-          user_name: data.user_name,
-          challenge_id: req.params.id,
-          day: req.params.day,
-          currentUser: req.cookies.currentUser,
-          errors: errors,
-          healthy_meals: req.body.healthy_meals,
-          unhealthy_meals: req.body.unhealthy_meals,
-          workouts: req.body.workouts,
-          alcohol: req.body.alcohol,
-          water: req.body.water,
-          perfect: req.body.perfect
-          });
-      })
+          challengeCollection.update( {_id: req.params.id},
+            {$push: {
+              scores: {
+                user_id: req.cookies.currentUser,
+                user_name: record.user_name,
+                day: req.params.day,
+                score: dailyScore
+                }
+              }
+            });
+
+
+            res.redirect('/challenges/' + req.params.id);
+      }
+      else {
+        userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
+          res.render('challenges/scores', {
+            user_name: data.user_name,
+            challenge_id: req.params.id,
+            day: req.params.day,
+            currentUser: req.cookies.currentUser,
+            errors: errors,
+            healthy_meals: req.body.healthy_meals,
+            unhealthy_meals: req.body.unhealthy_meals,
+            workouts: req.body.workouts,
+            alcohol: req.body.alcohol,
+            water: req.body.water,
+            perfect: req.body.perfect
+            });
+        })
     };
   });
+});
 });
 
 module.exports = router;

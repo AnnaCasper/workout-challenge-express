@@ -67,11 +67,13 @@ module.exports = {
     return errorArray;
   },
 
-  validateNewScore: function(challenge_id, currentUser, healthy_meals, unhealthy_meals, workouts, alcohol, water, perfect, user_ids, scores, day){
+  validateNewScore: function(user_name, challenge_id, currentUser, healthy_meals, unhealthy_meals, workouts, alcohol, water, perfect, user_ids, scores, day){
     var errorArray = [];
       var y = scores.indexOf({user_id: currentUser, day: day, });
-      var x = user_ids.indexOf(currentUser);
-      if( x === -1){
+      var position = user_ids.map(function(x) {return x.user_id;}).indexOf(currentUser);
+      var found = user_ids[position];
+
+      if( position === -1){
         errorArray.push("You must go back and join this challenge before you can enter a score.")
       }
 
