@@ -45,7 +45,7 @@ router.post('/users/new', function(req, res, next){
     console.log(duplicateError);
     var errors = validations.validateSignUp(
       req.body.user_name,
-      req.body.email,
+      email,
       req.body.password,
       req.body.confirm,
       duplicateError);
@@ -54,12 +54,12 @@ router.post('/users/new', function(req, res, next){
       userCollection.insert({
         user_name: req.body.user_name,
         profile_pic: "",
-        email: req.body.email,
+        email: email,
         password: hash,
         challenge_ids: [],
         scores: []
         });
-      userCollection.findOne({email: req.body.email}, function(err, data){
+      userCollection.findOne({email: email}, function(err, data){
         res.cookie('currentUser', data._id);
         res.redirect('/challenges');
       });
@@ -67,7 +67,7 @@ router.post('/users/new', function(req, res, next){
         res.render('users/new', {
           errors: errors,
           user_name: req.body.user_name,
-          email: req.body.email
+          email: email
           });
       };
   })
