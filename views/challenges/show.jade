@@ -14,6 +14,7 @@ block content
     table 
       thead
        tr
+       th player id
        th player name
        - var count = 1
         while count <= thisChallenge.challenge_length
@@ -21,10 +22,11 @@ block content
             a(href="/challenges/"+ thisChallenge._id + "/" + count + "/scores") day #{count++}
         th total score 
       tbody
-        for user in users
+        for row in challenge
           tr
-            td= user.user_name
-            
+            for cell in row
+              td= cell
+    
     p
     a(href="/challenges/" + thisChallenge._id + '/edit') edit challenge
   div.exit

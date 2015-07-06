@@ -10,6 +10,7 @@ body {
   background-position:center;
   background-repeat: no-repeat;
   background-size: 100% 1200px;
+  overflow: auto;
 }
 
 h1 {
@@ -26,7 +27,7 @@ h3 {
   background-image: url("/images/01.jpg");
   background-position:center;
   background-repeat: no-repeat;
-  background-size: 100% 1200px;
+  background-size: 100% 2400px;
 }
 
 .header {
@@ -83,11 +84,12 @@ a {
 table {
   margin:auto;
   border-collapse: collapse;
+  width: 90%;
 }
 
 table, th, tr, td {
   border: 1px solid black;
-  padding: 10px;
+  padding: 8px;
   text-align: center;
 }
 
