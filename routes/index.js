@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var authorization = require('express-authorization');
+var app = express();
 
 var db = require('monk')(process.env.MONGO_URI_CHALLENGES);
 var challengeCollection = db.get('challenge');
@@ -71,6 +73,7 @@ router.post('/users/new', function(req, res, next){
           });
       };
   })
+
 });
 
 // GET new challenge page
