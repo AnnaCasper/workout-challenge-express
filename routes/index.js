@@ -130,21 +130,24 @@ router.get('/challenges/:id', function(req, res, next){
 
 //POST join this challenge
 router.post('/challenges/:id/join', function(req, res, next){
-  userCollection.update({_id: req.cookies.currentUser},
-    {$push: {
-      challenge_ids: req.params.id
-      }
-    });
-  var currentUser = req.cookies.currentUser;
   userCollection.findOne({_id: req.cookies.currentUser}, function(err, data){
-    challengeCollection.update({_id: req.params.id},
-      {$push: {
-        user_ids: {
-          user_id: req.cookies.currentUser,
-          user_name: data.user_name
-        }
-      }
-      });
+    challengeCollection.findOne({_id: req.params.id}, function(err, record){
+      var error = validations.existingUser(record, req.cookies.currentUser);
+      userCollection.update({_id: req.cookies.currentUser},
+        {$push: {
+          challenge_ids: req.params.id
+          }
+        });
+      var currentUser = req.cookies.currentUser;
+        challengeCollection.update({_id: req.params.id},
+          {$push: {
+            user_ids: {
+              user_id: req.cookies.currentUser,
+              user_name: data.user_name
+            }
+          }
+          });
+    });
   });
   res.redirect('/challenges/' + req.params.id);
 });
