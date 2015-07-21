@@ -44,7 +44,6 @@ router.post('/users/new', function(req, res, next){
   var upperCase = req.body.email.toUpperCase();
   var email = upperCase.replace(" ", "");
   var uniqueEmail = validations.existingEmail(email, function(duplicateError){
-    console.log(duplicateError);
     var errors = validations.validateSignUp(
       req.body.user_name,
       email,
